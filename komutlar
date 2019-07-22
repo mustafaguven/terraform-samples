@@ -1,0 +1,51 @@
+terraform plan (state i refresh eder, real world environment ile terraform tarafini senkronize tutar)
+
+terraform init (providerlari check edip ilgili plugin i indirir)
+
+terraform apply (tum tf dosyalarindaki providerlari calistirir)
+
+terraform destroy -target aws_instance.myec2 ==> aws_instance provider indaki myec2 isimli resource u destroy eder
+
+terraform show aws_instance.myec2  (state dosyasini goster)
+
+terraform refresh (terraform plan yapildiginda refresh de otomatik calisir)
+
+
+
+
+---
+
+***** Basliklar *****
+
+desired state: resource blogunun altinda belirtilen parametreler desired state olarak kabul edilir
+
+attributes (output): bir islem yapildiktan sonra (orn: s3 bucket yaratildiktan sonraki identifier idsi) output olarak alip set edilebilen parametre
+
+      //apply edildikten sonra ec2 nun public ipsini almak icin
+      output "ec2_public_ip" {
+        value = "${aws_eip.public_ip.public_ip}"
+      }
+
+interpolation: attribute'un (output) un diger bir resource icerisindeki parametreyle iliskilendirilmesi
+
+variables: tf dosyalari icinde kullanilacak dinamik global parametreler
+
+    variable "office_ip" {
+      default = "110.110.23.20/16"
+    }
+
+    ${var.office_ip} olarak cekilir
+
+provisioners: (user data of aws) creation - deletion esnasinda bir scripti execute ederek herhangi bir programin
+yaratilmasini saglar. Orn: EC2 makineleri kurulurken her biri icin nginx kurulmasi gibi
+
+local-exec: komut terraform un kurulu oldugu makinede calisir, ansible playbook burada calistirilir
+remote-exec: provider (aws) tarafinda calisir
+
+modules: dry pattern (dont repeat yourself) parcaciklara bolup onlari modul olarak cagirmak icin
+
+  module "myec2" {
+    source = "../../modules/ec2"
+  }
+
+  ilgili klasordeki ec2 resource unu call eder.

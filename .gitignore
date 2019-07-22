@@ -1,0 +1,7 @@
+*.tfstate
+*.tfstate.backup
+*.pem
+.terraform
+credentials.csv
+terraform
+.DS_Store
