@@ -1,7 +1,7 @@
 provider "aws" {
   region     = "eu-central-1"
-  access_key = "aws_access_key_variable"
-  secret_key = "aws_secret_key_variable"
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
 }
 
 resource "aws_instance" "my_web" {

@@ -1,10 +1,6 @@
-variable access_key {
-  default = "aws_access_key_variable"
-}
+variable access_key {}
 
-variable secret_key {
-  default = "aws_secret_key_variable"
-}
+variable secret_key {}
 
 variable office_ip {
   default = "116.75.30.5/32"

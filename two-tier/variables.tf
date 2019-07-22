@@ -1,3 +1,6 @@
+variable access_key {}
+
+variable secret_key {}
 
 variable office_ip {
   default = "116.75.30.5/32"

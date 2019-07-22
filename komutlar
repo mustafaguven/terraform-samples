@@ -1,5 +1,7 @@
 terraform plan (state i refresh eder, real world environment ile terraform tarafini senkronize tutar)
 
+terraform plan -var-file=../terraform.tfvars (for secured)
+
 terraform init (providerlari check edip ilgili plugin i indirir)
 
 terraform apply (tum tf dosyalarindaki providerlari calistirir)
@@ -10,7 +12,13 @@ terraform show aws_instance.myec2  (state dosyasini goster)
 
 terraform refresh (terraform plan yapildiginda refresh de otomatik calisir)
 
+terraform workspace list
 
+terraform workspace new dev (dev adinda yeni bir workspace yaratmak icin)
+
+terraform workspace select dev (dev workspace ini secmek icin)
+
+terraform workspace show
 
 
 ---
@@ -49,3 +57,21 @@ modules: dry pattern (dont repeat yourself) parcaciklara bolup onlari modul olar
   }
 
   ilgili klasordeki ec2 resource unu call eder.
+
+
+  workspace:
+
+    variable "instance_type" {
+      type = "map"
+      default = {
+        default = "t2.nano"
+        dev = "t2.micro"
+        prod = "m4.large"
+      }
+    }
+
+
+    resource "aws_instance" "myweb" {
+      ami = "ami-bf12312"
+      instance_type = "${lookup(var.instance_type, terraform.workspace)}"
+    }
